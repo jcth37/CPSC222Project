@@ -1,7 +1,5 @@
-
 package TrainSim;
 
-
-public class Station {
+public class Station extends Location{
     
 }

@@ -12,12 +12,9 @@ import java.util.ArrayList;
 public class Train extends Thread {
     
     public static final int CAP = 6;//max capacity
-    private static int nextID = 0;
     private static int collisions = 0;
     
     private int contains;
-    private int id;
-    //private Location loc;
     private Track currentTrack;
     private ArrayList<Passenger> people;
     private Route route;
@@ -27,8 +24,6 @@ public class Train extends Thread {
     public Train(Route route){
         if (route == null)
             throw new RuntimeException("Route must exist!");
-        id = nextID;
-        nextID++;
         contains = 0;
         people = new ArrayList();
         this.route = route;

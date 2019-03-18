@@ -30,7 +30,7 @@ public class Passenger {
     }
     
     public boolean hasArrived() {
-        return destStack.size == 0;
+        return destStack.size() == 0;
     }
     
 }

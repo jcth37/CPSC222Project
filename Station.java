@@ -6,6 +6,7 @@ public class Station extends Location{
     private static final Random r = new Random();
     private static final ArrayList<Station> allStations = new ArrayList();
     private ArrayList<Passenger> p = new ArrayList();
+    private ArrayList<Route> routes = new ArrayList();
     
     public Station(){
         allStations.add(this);
@@ -17,6 +18,10 @@ public class Station extends Location{
         for(int i = 0 ; i < 5 ; i++){
             p.add(new Passenger(this));
         }
+    }
+    
+    public void addRoute(Route route) {
+        routes.add(route);
     }
     
     public void getPassenger(Passenger person){

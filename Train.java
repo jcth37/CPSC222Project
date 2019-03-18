@@ -20,11 +20,11 @@ public class Train extends Thread {
     //private Location loc;
     private Track currentTrack;
     private ArrayList<Passenger> people;
-    private Tracks route;
+    private Route route;
     private int trackNum;  // current track number in route
     private int direction; // must be -1 or +1
     
-    public Train(Tracks route){
+    public Train(Route route){
         if (route == null)
             throw new RuntimeException("Route must exist!");
         id = nextID;

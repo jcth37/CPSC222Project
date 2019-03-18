@@ -19,7 +19,7 @@ public class Station extends Location{
         }
     }
     
-    public Station getRandomStation(){
+    public static Station getRandomStation(){
         //used by passengers to get their destination
         int n = r.nextInt(allStations.size());
         return allStations.get(n);

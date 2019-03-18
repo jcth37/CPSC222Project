@@ -1,5 +1,7 @@
 package TrainSim;
 
+// Update: Station only loads passengers that need a given route.
+
 import java.util.ArrayList;
 import java.util.Random;
 public class Station{
@@ -19,6 +21,15 @@ public class Station{
         return !p.isEmpty();
     }
     
+    public boolean hasPassengers(Route route) {
+        for (Passenger person : p) {
+            Route pRoute = p.getNextRoute();
+            if (pRoute == route || pRoute == null)  //null => station on current track
+                return true;
+        }
+        return false;
+    }
+    
     public void addRoute(Route r){
         myRoutes.add(r);
     }
@@ -30,8 +41,14 @@ public class Station{
         }
     }
     
-    public Passenger loadPassenger(){//put the passenger on the train
-        return p.remove(0);
+    public Passenger loadPassenger(Route route){//put the passenger on the train
+        // only put on if person's route is the same as the train's
+        for (int i = 0; i < p.size(); i++) {
+            Route pRoute = p.get(i).getNextRoute();
+            if (pRoute == route || pRoute == null)  //null => station on current track
+                return p.remove(i);
+        }
+        return null;
     }
     
     public void newPassenger(Passenger person){//a passenger arrives at the station

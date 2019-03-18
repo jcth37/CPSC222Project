@@ -1,14 +1,18 @@
 package TrainSim;
 
+/* Update:  -Generates an efficient, non-infinite stack of routes.
+            -destStack was changed to routeStack, because the amount of work overall seems smaller in this case to me.
+*/
+
 public class Passenger {
     private Station dest; //destination
-    private MyStack destStack;
+    private MyStack<Route> routeStack;
     
     public Passenger(){
         reset();
     }
     
-    private void generateDestStack(Station s) {     // Using Breadth First Search
+    private void generateRouteStack(Station s) {     // Using Breadth First Search
         MyQueue<Route> search = new MyQueue();
         MyQueue<Node<Route>> traceBack = new MyQueue();  //traceBack keeps track of the "route of routes"
         
@@ -42,9 +46,9 @@ public class Passenger {
         
         // Finally use traceBack nodes to generate destStack
         // thankfully pushing on stack reverses the order
-        destStack = new MyStack();
+        routeStack = new MyStack();
         while (n != null) {
-            destStack.push(n.element);
+            routeStack.push(n.element);
             n = n.link;
         }
     }
@@ -55,7 +59,7 @@ public class Passenger {
         while(start == dest){
             start = Station.getRandomStation();
         }
-        generateDestStack(start);
+        generateRouteStack(start);
         start.newPassenger(this);
     }
     
@@ -63,13 +67,21 @@ public class Passenger {
         return dest;
     }
     
-    public void setDest(Station s){
-        destStack.push(dest);
-        dest = s;
+    public Route getNextRoute(Route route) {
+        return routeStack.top();
     }
     
-    public boolean hasArrived() {
-        return destStack.size() == 0;
+    public void goNextRoute() {
+        routeStack.pop();
     }
+    
+    //public void setDest(Station s){
+    //    destStack.push(dest);
+    //    dest = s;
+    //}
+    
+    //public boolean hasArrived() {
+    //    return destStack.size() == 0;
+    //}
     
 }

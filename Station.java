@@ -2,7 +2,7 @@ package TrainSim;
 
 import java.util.ArrayList;
 import java.util.Random;
-public class Station extends Location{
+public class Station{
     private static final Random r = new Random();
     private static final ArrayList<Station> allStations = new ArrayList();
     private final ArrayList<Route> myRoutes = new ArrayList();

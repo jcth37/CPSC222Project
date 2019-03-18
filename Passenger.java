@@ -4,6 +4,7 @@ package TrainSim;
 
 public class Passenger {
     private Station dest; //destination
+    private MyStack destStack;
     
     public Passenger(Station start){
         reset();
@@ -11,10 +12,19 @@ public class Passenger {
     
     public final void reset(){
         dest = Station.getRandomStation();
-        Station.getRandomStation().getPassenger(this);
+        Station start = Station.getRandomStation();
+        while(start == dest){
+            start = Station.getRandomStation();
+        }
+        start.newPassenger(this);
     }
     
     public Station getDest(){
         return dest;
+    }
+    
+    public void setDest(Station s){
+        destStack.push(dest);
+        dest = s;
     }
 }

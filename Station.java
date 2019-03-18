@@ -5,12 +5,20 @@ import java.util.Random;
 public class Station extends Location{
     private static final Random r = new Random();
     private static final ArrayList<Station> allStations = new ArrayList();
+    private final ArrayList<Route> myRoutes = new ArrayList();
     private ArrayList<Passenger> p = new ArrayList();
-    private ArrayList<Track> tracks = new ArrayList();
     
     public Station(){
         allStations.add(this);
         init();
+    }
+    
+    public boolean hasPassengers(){
+        return !p.isEmpty();
+    }
+    
+    public void addRoute(Route r){
+        myRoutes.add(r);
     }
     
     private void init(){
@@ -20,11 +28,11 @@ public class Station extends Location{
         }
     }
     
-    public void addConnection(Track track) {
-        routes.add(track);
+    public Passenger loadPassenger(){//put the passenger on the train
+        return p.remove(0);
     }
     
-    public void getPassenger(Passenger person){
+    public void newPassenger(Passenger person){//a passenger arrives at the station
         p.add(person);
     }
     

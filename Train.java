@@ -57,8 +57,14 @@ public class Train extends Thread {
                         contains--;
                     }
                 }
-                if (contains < CAP) {
+                while (contains < CAP) {
                     // <- Load only valid passengers from station
+                    if(station.hasPassengers()){
+                        Passenger p = station.loadPassenger();
+                        people.add(p);
+                    }else{
+                        break;
+                    }
                 }
                 sleep(calcDelayTime(currentTrack.getDistance())); //driving
                 Track nextTrack = route.getTrack(trackNum+direction);

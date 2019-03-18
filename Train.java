@@ -1,6 +1,7 @@
 package TrainSim;
 
 /* Update:  -Train will only load or drop off valid passengers now, this is keeping in mind the inner stack of each passenger.
+            -The code in run() was changed quite a bit to better suit the new Passenger implementation.
 */         
 
 import java.util.ArrayList;

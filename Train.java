@@ -62,7 +62,7 @@ public class Train extends Thread {
                     if(station.hasPassengers()){
                         Passenger p = station.loadPassenger();
                         people.add(p);
-                      //need to add list of stops
+                        //
                     }else{
                         break;
                     }
@@ -78,9 +78,5 @@ public class Train extends Thread {
             }
         } catch (InterruptedException e) { 
         }
-    }
-    
-    public Location getLocation() {
-        return currentTrack;
     }
 }

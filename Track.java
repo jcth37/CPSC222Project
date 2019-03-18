@@ -6,7 +6,7 @@ package TrainSim;
 //         -Variables changed to final
 //         -Distance is something that we have to come up with anyway, so it
 //          was added to the constructor
-public class Track extends Location{
+public class Track{
     private final Station one;
     private final Station two;
     private final double distance;

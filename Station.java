@@ -3,6 +3,8 @@ package TrainSim;
 import java.util.ArrayList;
 import java.util.Random;
 public class Station{
+    //station is the shared resource; two trains cannot access the same station
+    //at the same time
     private static final Random r = new Random();
     private static final ArrayList<Station> allStations = new ArrayList();
     private final ArrayList<Route> myRoutes = new ArrayList();

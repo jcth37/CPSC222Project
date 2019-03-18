@@ -6,7 +6,7 @@ public class Passenger {
     private Station dest; //destination
     private MyStack destStack;
     
-    public Passenger(Station start){
+    public Passenger(){
         reset();
     }
     
@@ -16,6 +16,7 @@ public class Passenger {
         while(start == dest){
             start = Station.getRandomStation();
         }
+        
         start.newPassenger(this);
     }
     
@@ -27,4 +28,9 @@ public class Passenger {
         destStack.push(dest);
         dest = s;
     }
+    
+    public boolean hasArrived() {
+        return destStack.size == 0;
+    }
+    
 }

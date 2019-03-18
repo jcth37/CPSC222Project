@@ -24,7 +24,7 @@ public class Station{
     private void init(){
         //intended only to be called when initializing station.
         for(int i = 0 ; i < 5 ; i++){
-            p.add(new Passenger(this));
+            p.add(new Passenger());
         }
     }
     

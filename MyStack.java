@@ -1,21 +1,6 @@
 package TrainSim;
 
 public class MyStack<E> {
-    private class Node<E> {
-
-        private E element;
-        private Node<E> next;
-
-        private Node(E e) {
-            element = e;
-            next = null;
-        }
-
-        private Node(E e, Node n) {
-            element = e;
-            next = n;
-        }
-    }
     private Node<E> head;
     private int size;
     
@@ -45,8 +30,8 @@ public class MyStack<E> {
             return null;
         }
         E ans = top();
-        Node temp = head.next;
-        head.next = null;
+        Node temp = head.link;
+        head.link = null;
         head = temp;
         size--;
         return ans;

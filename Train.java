@@ -48,6 +48,9 @@ public class Train extends Thread {
                     Passenger p = people.get(i);
                     if (p.getDest() == station) {
                         people.remove(i);
+                        if(p.hasArrived()){
+                            p.reset();
+                        }
                         // <- Drop passenger off at station
                         contains--;
                     }

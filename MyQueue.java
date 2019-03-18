@@ -1,22 +1,7 @@
 package TrainSim;
 
 public class MyQueue<E> {
-
-    private class Node<E> {
-
-        private E element;
-        private Node<E> prev;
-
-        private Node(E e) {
-            element = e;
-            prev = null;
-        }
-
-        private Node(E e, Node p) {
-            element = e;
-            prev = p;
-        }
-    }
+    
     private Node<E> head;
     private Node<E> tail;
     private int size;
@@ -33,8 +18,8 @@ public class MyQueue<E> {
             head = new Node(e);
             tail = head;
         } else {
-            tail.prev = new Node(e);
-            tail = tail.prev;
+            tail.link = new Node(e);
+            tail = tail.link;
         }
         size++;
     }
@@ -45,7 +30,7 @@ public class MyQueue<E> {
             return null;
         } else {
             ans = head.element;
-            head = head.prev;
+            head = head.link;
         }
         size--;
         return ans;

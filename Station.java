@@ -7,7 +7,7 @@ public class Station{
     //at the same time
     private static final Random r = new Random();
     private static final ArrayList<Station> allStations = new ArrayList();
-    private final ArrayList<Route> myRoutes = new ArrayList();
+    public final ArrayList<Route> myRoutes = new ArrayList();
     private ArrayList<Passenger> p = new ArrayList();
     
     public Station(){

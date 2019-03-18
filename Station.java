@@ -19,6 +19,10 @@ public class Station extends Location{
         }
     }
     
+    public void getPassenger(Passenger person){
+        p.add(person);
+    }
+    
     public static Station getRandomStation(){
         //used by passengers to get their destination
         int n = r.nextInt(allStations.size());

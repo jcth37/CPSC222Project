@@ -4,14 +4,14 @@ package TrainSim;
 
 public class Passenger {
     private Station dest; //destination
-    private Location current;
     
-    public Passenger(){
+    public Passenger(Station start){
         reset();
     }
     
-    public void reset(){
-        //sets destination and current
+    public final void reset(){
+        dest = Station.getRandomStation();
+        Station.getRandomStation().getPassenger(this);
     }
     
     public Station getDest(){

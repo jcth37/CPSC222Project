@@ -1,10 +1,6 @@
 package TrainSim;
 
-/* Update:  -Train will now go from track to track using track order from the 
-             'route' variable. If train reaches the end of the route, it's
-             direction will reverse.
-            -When train reaches a station, the correct passengers will be removed.
-            -'people' is now an ArrayList.
+/* Update:  -Train will only load or drop off valid passengers now, this is keeping in mind the inner stack of each passenger.
 */         
 
 import java.util.ArrayList;
@@ -46,24 +42,25 @@ public class Train extends Thread {
                 // <- Do synchronization stuff here perhaps
                 for (int i = contains-1; i >= 0; i--) {
                     Passenger p = people.get(i);
+                    // Drop passenger off at station
                     if (p.getDest() == station) {
                         people.remove(i);
-                        if(p.hasArrived()){
-                            p.reset();
-                        }
-                        // <- Drop passenger off at station
+                        p.reset();
+                        contains--;
+                    } else if (station.myRoutes.contains(p.getNextRoute())) {
+                        people.remove(i);
+                        p.goNextRoute();
+                        station.newPassenger(p);
                         contains--;
                     }
                 }
                 while (contains < CAP) {
-                    // <- Load only valid passengers from station
-                    if(station.hasPassengers()){
-                        Passenger p = station.loadPassenger();
+                    // Load only valid passengers from station
+                    Passenger p = station.loadPassenger(route);
+                    if (p != null) 
                         people.add(p);
-                        //
-                    }else{
+                    else 
                         break;
-                    }
                 }
                 sleep(calcDelayTime(currentTrack.getDistance())); //driving
                 Track nextTrack = route.getTrack(trackNum+direction);

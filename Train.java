@@ -1,9 +1,5 @@
 package TrainSim;
 
-/* Update:  -Train will only load or drop off valid passengers now, this is keeping in mind the inner stack of each passenger.
-            -The code in run() was changed quite a bit to better suit the new Passenger implementation.
-*/         
-
 import java.util.ArrayList;
 
 public class Train extends Thread {
@@ -32,7 +28,7 @@ public class Train extends Thread {
     private int calcDelayTime(double distance) {
         // Calculate how long a track takes to travel.
         // Maybe each train has a variable speed.
-        return 10;   
+        return ;   
     }
     
     @Override
@@ -40,6 +36,8 @@ public class Train extends Thread {
         try {
             while (!interrupted()) {
                 Station station = currentTrack.getStation(direction);
+                
+                
                 // <- Do synchronization stuff here perhaps
                 for (int i = contains-1; i >= 0; i--) {
                     Passenger p = people.get(i);
@@ -55,6 +53,7 @@ public class Train extends Thread {
                         contains--;
                     }
                 }
+               
                 while (contains < CAP) {
                     // Load only valid passengers from station
                     Passenger p = station.loadPassenger(route);

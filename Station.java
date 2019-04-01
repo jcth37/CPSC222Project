@@ -4,13 +4,16 @@ package TrainSim;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 public class Station{
     //station is the shared resource; two trains cannot access the same station
     //at the same time
-    private static final Random r = new Random();
-    private static final ArrayList<Station> allStations = new ArrayList();
-    public final ArrayList<Route> myRoutes = new ArrayList();
-    private ArrayList<Passenger> p = new ArrayList();
+	Random r = new Random();
+    
+	private static ArrayList<Station> allStations = new ArrayList();
+    
+    public ArrayList<Route> myRoutes = new ArrayList<Route>();
+    private ArrayList<Passenger> p = new ArrayList<Passenger>();
     
     public Station(){
         allStations.add(this);
@@ -21,26 +24,26 @@ public class Station{
         return !p.isEmpty();
     }
     
-    public boolean hasPassengers(Route route) {
-        for (Passenger person : p) {
-            Route pRoute = p.getNextRoute();
-            if (pRoute == route || pRoute == null)  //null => station on current track
-                return true;
-        }
-        return false;
-    }
     
-    public void addRoute(Route r){
-        myRoutes.add(r);
-    }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /////////////change past here
     private void init(){
-        //intended only to be called when initializing station.
-        for(int i = 0 ; i < 5 ; i++){
-            p.add(new Passenger());
+        //intended only to be called when initializing station. creates 3 passengers at random stations
+        for(int i = 0 ; i < 3 ; i++){
+            new Passenger();
         }
     }
     
+
     public Passenger loadPassenger(Route route){//put the passenger on the train
         // only put on if person's route is the same as the train's
         for (int i = 0; i < p.size(); i++) {
@@ -53,6 +56,13 @@ public class Station{
     
     public void newPassenger(Passenger person){//a passenger arrives at the station
         p.add(person);
+    }
+    
+    
+    
+    //don't change
+    public void addRoute(Route r){
+        myRoutes.add(r);
     }
     
     public static Station getRandomStation(){

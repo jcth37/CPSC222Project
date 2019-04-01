@@ -21,8 +21,21 @@ public class Track{
         return distance;
     }
     
-    public Station getStation(int direction) {
+    public Station getNextStation(int direction) {
         return direction <= 0 ? one : two;
     }
     
+    public Station getStation1()
+    {
+    	return one;
+    }
+    
+    public Station getStation2()
+    {
+    	return two;
+    }
+    
 }
+
+ 
+

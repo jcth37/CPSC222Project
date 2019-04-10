@@ -1,9 +1,5 @@
 package TrainSim;
 
-/* Update:  -Train will only load or drop off valid passengers now, this is keeping in mind the inner stack of each passenger.
-            -The code in run() was changed quite a bit to better suit the new Passenger implementation.
-*/         
-
 import java.util.ArrayList;
 
 public class Train extends Thread {
@@ -32,7 +28,7 @@ public class Train extends Thread {
     private int calcDelayTime(double distance) {
         // Calculate how long a track takes to travel.
         // Maybe each train has a variable speed.
-        return 10;   
+        return 1000;   
     }
     
     @Override
@@ -40,16 +36,19 @@ public class Train extends Thread {
         try {
             while (!interrupted()) {
                 Station station = currentTrack.getStation(direction);
+                System.out.printf("%s at %s\n", this.toString(), station.toString());
                 // <- Do synchronization stuff here perhaps
                 for (int i = contains-1; i >= 0; i--) {
                     Passenger p = people.get(i);
                     // Drop passenger off at station
                     if (p.getDest() == station) {
                         people.remove(i);
+                        System.out.printf("%s from %s, has arrived at %s\n", p.toString(), this.toString(), station.toString());
                         p.reset();
                         contains--;
                     } else if (station.myRoutes.contains(p.getNextRoute())) {
                         people.remove(i);
+                        System.out.printf("%s from %s, has transfered to %s\n", p.toString(), this.toString(), station.toString());
                         p.goNextRoute();
                         station.newPassenger(p);
                         contains--;
@@ -58,10 +57,13 @@ public class Train extends Thread {
                 while (contains < CAP) {
                     // Load only valid passengers from station
                     Passenger p = station.loadPassenger(route);
-                    if (p != null) 
+                    if (p != null) {
                         people.add(p);
-                    else 
+                        System.out.println(p.toString()+" was added to "+this.toString()+", to get to "+p.getDest().toString());
+                        contains++;
+                    } else { 
                         break;
+                    }
                 }
                 sleep(calcDelayTime(currentTrack.getDistance())); //driving
                 Track nextTrack = route.getTrack(trackNum+direction);

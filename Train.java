@@ -14,15 +14,19 @@ public class Train extends Thread {
     private int trackNum;  // current track number in route
     private int direction; // must be -1 or +1
     
+    private static int count = 0;
+    public final int id;
+    
     public Train(Route route){
         if (route == null)
             throw new RuntimeException("Route must exist!");
+        direction = +1;
+        id = ++count;
         contains = 0;
         people = new ArrayList();
         this.route = route;
         trackNum = 0;
         currentTrack = route.getTrack(trackNum);
-        direction = +1;
     }
     
     private int calcDelayTime(double distance) {
@@ -36,14 +40,14 @@ public class Train extends Thread {
         try {
             while (!interrupted()) {
                 Station station = currentTrack.getStation(direction);
-                System.out.printf("%s at %s\n", this.toString(), station.toString());
+                System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
                 // <- Do synchronization stuff here perhaps
                 for (int i = contains-1; i >= 0; i--) {
                     Passenger p = people.get(i);
                     // Drop passenger off at station
                     if (p.getDest() == station) {
                         people.remove(i);
-                        System.out.printf("%s from %s, has arrived at %s\n", p.toString(), this.toString(), station.toString());
+                        System.out.printf("%s from %s, has arrived at destination %s\n", p.toString(), this.toString(), station.toString());
                         p.reset();
                         contains--;
                     } else if (station.myRoutes.contains(p.getNextRoute())) {
@@ -59,7 +63,7 @@ public class Train extends Thread {
                     Passenger p = station.loadPassenger(route);
                     if (p != null) {
                         people.add(p);
-                        System.out.println(p.toString()+" was added to "+this.toString()+", to get to "+p.getDest().toString());
+                        System.out.printf("%s was added to %s, to get to %s\n", p.toString(), this.toString(), p.getDest().toString());
                         contains++;
                     } else { 
                         break;
@@ -77,4 +81,9 @@ public class Train extends Thread {
         } catch (InterruptedException e) { 
         }
     }
+    
+    public String toString() { 
+        return "Train #"+id;
+    }
+    
 }

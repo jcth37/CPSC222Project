@@ -3,8 +3,11 @@ package TrainSim;
 public class Passenger {
     private Station dest; //destination
     private MyStack<Route> routeStack;
+    private static int count = 0;
+    public final int id;
     
     public Passenger(){
+        id = ++count;
         reset();
     }
     
@@ -71,13 +74,8 @@ public class Passenger {
         routeStack.pop();
     }
     
-    //public void setDest(Station s){
-    //    destStack.push(dest);
-    //    dest = s;
-    //}
-    
-    //public boolean hasArrived() {
-    //    return destStack.size() == 0;
-    //}
+    public String toString() { 
+        return "Passenger #"+id;
+    }
     
 }

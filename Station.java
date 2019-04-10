@@ -9,9 +9,12 @@ public class Station{
     private static final ArrayList<Station> allStations = new ArrayList();
     public final ArrayList<Route> myRoutes = new ArrayList();
     private ArrayList<Passenger> p = new ArrayList();
+    private static int count = 0;
+    public final int id;
     
     public Station(){
         allStations.add(this);
+        id = ++count;
     }
     
     public boolean hasPassengers(){
@@ -33,7 +36,7 @@ public class Station{
     
     public void init(){
         //intended only to be called when initializing station.
-        for(int i = 0 ; i < 5 ; i++){
+        for(int i = 0 ; i < 1 ; i++){
             p.add(new Passenger());
         }
     }
@@ -56,6 +59,10 @@ public class Station{
         //used by passengers to get their destination
         int n = r.nextInt(allStations.size());
         return allStations.get(n);
+    }
+    
+    public String toString() { 
+        return "Station #"+id;
     }
     
 }

@@ -40,6 +40,12 @@ public class Train extends Thread {
         try {
             while (!interrupted()) {
                 Station station = currentTrack.getStation(direction);
+                
+                for (int z = 0; z < people.size(); z++)
+                {
+                    people.get(z).setCurrentStation(station);
+                }
+                
                 System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
                 // <- Do synchronization stuff here perhaps
                 for (int i = contains-1; i >= 0; i--) {
@@ -61,7 +67,7 @@ public class Train extends Thread {
                 while (contains < CAP) {
                     // Load only valid passengers from station
                     Passenger p = station.loadPassenger(route);
-                    if (p != null) {
+                    if (p != null && p.getCurrentStation() == station) {
                         people.add(p);
                         System.out.printf("%s was added to %s\n", p.toString(), this.toString());
                         contains++;

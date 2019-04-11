@@ -40,7 +40,7 @@ public class Station{
     public void init(){
         //intended only to be called when initializing station.
         for(int i = 0 ; i < 1 ; i++){
-            p.add(new Passenger());
+            new Passenger();
         }
     }
     

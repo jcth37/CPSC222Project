@@ -2,6 +2,7 @@ package TrainSim;
 
 public class Passenger {
     private Station dest; //destination
+    private Station currStat;
     private MyStack<Route> routeStack;
     private static int count = 0;
     public final int id;
@@ -60,11 +61,20 @@ public class Passenger {
         }
         generateRouteStack(start);
         start.newPassenger(this);
+        currStat = start;
         System.out.printf("%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
     }
     
     public Station getDest(){
         return dest;
+    }
+    
+    public Station getCurrentStation(){
+        return currStat;
+    }
+    
+    public void setCurrentStation(Station a){
+        currStat = a;
     }
     
     public Route getNextRoute() {

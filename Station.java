@@ -55,21 +55,11 @@ public class Station{
     public Passenger loadPassenger(Route route){//put the passenger on the train
         // only put on if person's route is the same as the train's
         for (int i = 0; i < p.size(); i++) {
-            
-            if (p.get(i).id == 1 && p.get(i).getCurrentStation().id == 2)////////////////////////// testing stuff
+            if (p.get(i).id == 1 && p.get(i).getCurrentStation().id == 2)
                 System.out.print("");
-           
             Route pRoute = p.get(i).getNextRoute();
-            
-            p.get(i).failsafe++;////////////////////////////////// fail safe testing
-            if (p.get(i).failsafe > 5)
-                pRoute = null;
-            
-            if (pRoute == route || pRoute == null){  //null => station on current track
-                
-                p.get(i).failsafe = 0;
+            if (pRoute == route || pRoute == null)  //null => station on current track
                 return p.remove(i);
-            }
         }
         return null;
     }

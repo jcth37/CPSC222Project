@@ -7,8 +7,10 @@ public class Passenger {
     private static int count = 0;
     public final int id;
     
+    public int failsafe = 0;
+    
     public Passenger(){
-        id = ++count;
+        id = count++;
         reset();
     }
     

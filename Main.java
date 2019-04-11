@@ -12,10 +12,10 @@ public class Main {
         Route r2 = new Route(c, d);
         Route r3 = new Route(a, d);
         
-        a.init();
-        b.init();
-        c.init();
-        d.init();
+        a.init(3);
+        b.init(3);
+        c.init(3);
+        d.init(3);
         
         Train t1 = new Train(r);
         Train t2 = new Train(r2);

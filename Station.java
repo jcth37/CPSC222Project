@@ -13,9 +13,13 @@ public class Station{
     public final int id;
     public final double x, y;
     
+    private byte[] trains;   // Trains entering
+    private int[] tk;       // Tokens
+    private int n;          // Number of threads 
+    
     public Station(double x, double y){
         allStations.add(this);
-        id = ++count;
+        id = count++;
         this.x = x;
         this.y = y;
     }
@@ -37,19 +41,35 @@ public class Station{
         myRoutes.add(r);
     }
     
-    public void init(){
+    public void init(int n){
         //intended only to be called when initializing station.
         for(int i = 0 ; i < 1 ; i++){
             new Passenger();
         }
+        //bakery stuff
+        this.n = n;
+        trains = new byte[n];
+        tk = new int[n];
     }
     
     public Passenger loadPassenger(Route route){//put the passenger on the train
         // only put on if person's route is the same as the train's
         for (int i = 0; i < p.size(); i++) {
+            
+            if (p.get(i).id == 1 && p.get(i).getCurrentStation().id == 2)////////////////////////// testing stuff
+                System.out.print("");
+           
             Route pRoute = p.get(i).getNextRoute();
-            if (pRoute == route || pRoute == null)  //null => station on current track
+            
+            p.get(i).failsafe++;////////////////////////////////// fail safe testing
+            if (p.get(i).failsafe > 5)
+                pRoute = null;
+            
+            if (pRoute == route || pRoute == null){  //null => station on current track
+                
+                p.get(i).failsafe = 0;
                 return p.remove(i);
+            }
         }
         return null;
     }
@@ -62,6 +82,54 @@ public class Station{
         //used by passengers to get their destination
         int n = r.nextInt(allStations.size());
         return allStations.get(n);
+    }
+   
+    /**
+     * @return      the maximum token value
+     */
+    private int maxToken() {
+        int m = tk[0];
+        for (int j = 1; j < n; j++) {
+            if (m < tk[j])
+                m = tk[j];
+        }
+        return m;
+    }
+    
+    /**
+     * Enter into a critical section. Will pause thread until section is empty.
+     * @param i     the current thread ID
+     * @throws InterruptedException 
+     */
+    public void enter(int i) throws InterruptedException {
+        trains[i] = 1;
+        tk[i] = maxToken()+1;
+        trains[i] = 0;
+        for (int j = 0; j < n; j++) {
+            // Note: delays must added, or else massive performance drops occur.
+            while (trains[j] != 0) 
+                Thread.currentThread().sleep(1);
+            while (tk[j] != 0 && (j < i || j == i && tk[j] < tk[i])) 
+                Thread.currentThread().sleep(1);
+        }
+    }
+    
+    /**
+     * Exits a critical section. Allows the next thread to have access.
+     * @param i     the current thread ID 
+     */
+    public void exit(int i) {
+        tk[i] = 0;
+    }
+    
+    /**
+     * Resets a bakery's variables. In case experiment was halted at a bad time.
+     */
+    public void reset() {
+        for (int i = 0; i < n; i++) {
+            trains[i] = 0;
+            tk[i] = 0;
+        }
     }
     
     public String toString() { 

@@ -21,7 +21,7 @@ public class Train extends Thread {
         if (route == null)
             throw new RuntimeException("Route must exist!");
         direction = +1;
-        id = ++count;
+        id = count++;
         contains = 0;
         people = new ArrayList();
         this.route = route;
@@ -41,10 +41,17 @@ public class Train extends Thread {
             while (!interrupted()) {
                 Station station = currentTrack.getStation(direction);
                 
-                for (int z = 0; z < people.size(); z++)
+                
+                
+                synchronized(station) {
+                    
+                for (int z = 0; z < people.size(); z++) ///////////////////// moved into syncronization loop due to editing people even though they're on train
                 {
                     people.get(z).setCurrentStation(station);
                 }
+                         
+                    
+                //station.enter(id);
                 
                 System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
                 // <- Do synchronization stuff here perhaps
@@ -56,7 +63,15 @@ public class Train extends Thread {
                         System.out.printf("%s from %s, has arrived at destination %s\n", p.toString(), this.toString(), station.toString());
                         p.reset();
                         contains--;
-                    } else if (station.myRoutes.contains(p.getNextRoute())) {
+                    } 
+                    else if (route.contains(p.getDest())){
+                        System.out.printf("%s stays on %s\n", p.toString(), this.toString()); /////////////////added to keep tabs on passengers
+                    }
+                    else if (station.myRoutes.contains(p.getNextRoute())) {
+                        
+                        if (p.id == 1 && station.id == 2)////////////////////////////////////////test
+                            System.out.print("");
+                        
                         people.remove(i);
                         System.out.printf("%s from %s, has transfered to %s\n", p.toString(), this.toString(), station.toString());
                         p.goNextRoute();
@@ -66,14 +81,23 @@ public class Train extends Thread {
                 }
                 while (contains < CAP) {
                     // Load only valid passengers from station
+                    if (station.id == 2)///////////////////////////////////////////////test
+                        System.out.print("");
+                    
                     Passenger p = station.loadPassenger(route);
-                    if (p != null && p.getCurrentStation() == station) {
+                    if (p != null && p.getCurrentStation() == station ) {
                         people.add(p);
                         System.out.printf("%s was added to %s\n", p.toString(), this.toString());
                         contains++;
+                        
+                        
                     } else { 
+                        
                         break;
                     }
+                }
+                System.out.printf("%s has left %s\n", this.toString(), station.toString());
+                //station.exit(id);
                 }
                 sleep(calcDelayTime(currentTrack.getDistance())); //driving
                 Track nextTrack = route.getTrack(trackNum+direction);

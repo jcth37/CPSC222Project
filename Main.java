@@ -3,10 +3,10 @@ package TrainSim;
 
 public class Main {
     public static void main(String[] args){
-        Station a = new Station();
-        Station b = new Station();
-        Station c = new Station();
-        Station d = new Station();
+        Station a = new Station(0, 0);
+        Station b = new Station(1000, 0);
+        Station c = new Station(2000, 0);
+        Station d = new Station(3000, 0);
 
         Route r = new Route(a, b, c);
         Route r2 = new Route(c, d);

@@ -5,16 +5,19 @@ import java.util.Random;
 public class Station{
     //station is the shared resource; two trains cannot access the same station
     //at the same time
-    private static final Random r = new Random();
+    private static final Random r = new Random(42);
     private static final ArrayList<Station> allStations = new ArrayList();
     public final ArrayList<Route> myRoutes = new ArrayList();
     private ArrayList<Passenger> p = new ArrayList();
     private static int count = 0;
     public final int id;
+    public final double x, y;
     
-    public Station(){
+    public Station(double x, double y){
         allStations.add(this);
         id = ++count;
+        this.x = x;
+        this.y = y;
     }
     
     public boolean hasPassengers(){

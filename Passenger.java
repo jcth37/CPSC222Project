@@ -60,6 +60,7 @@ public class Passenger {
         }
         generateRouteStack(start);
         start.newPassenger(this);
+        System.out.printf("%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
     }
     
     public Station getDest(){

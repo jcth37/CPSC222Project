@@ -14,7 +14,7 @@ public class Track{
     public Track(Station a, Station b, double d){
         one = a;
         two = b;
-        distance = d;
+        distance = Math.sqrt(Math.pow(a.x-b.x, 2)+Math.pow(a.y-b.y, 2));
     }
     
     public double getDistance() {

@@ -63,7 +63,7 @@ public class Train extends Thread {
                     Passenger p = station.loadPassenger(route);
                     if (p != null) {
                         people.add(p);
-                        System.out.printf("%s was added to %s, to get to %s\n", p.toString(), this.toString(), p.getDest().toString());
+                        System.out.printf("%s was added to %s\n", p.toString(), this.toString());
                         contains++;
                     } else { 
                         break;

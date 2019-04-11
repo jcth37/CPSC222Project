@@ -30,7 +30,7 @@ public class Route {
         return myTracks[i];
     }
 
-    public boolean contatins(Station aStation) {
+    public boolean contains(Station aStation) {
         boolean ans = false;
         for (int i = 0; i < s.length; i++) {
             if (s[i].equals(aStation)) {

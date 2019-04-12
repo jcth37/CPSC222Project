@@ -65,11 +65,12 @@ public class Train extends Thread {
                 ipoint3.setLocation(station.x, station.y + STATIONSIZE);
                 ipoint4.setLocation(station.x + STATIONSIZE, station.y + STATIONSIZE);
                 ipoint5.setLocation(currentTrack.getPoint(-direction));
+                point1.setLocation(ipoint1.getX(), ipoint1.getY());
+                point2.setLocation(ipoint2.getX(), ipoint2.getY());
+                point3.setLocation(ipoint3.getX(), ipoint3.getY());
+                point4.setLocation(ipoint4.getX(), ipoint4.getY()); 
+                point5.setLocation(ipoint5.getX(), ipoint5.getY()); 
                 
-                //xvel = (currentTrack.getPoint(direction).getX()- 
-                //currentTrack.getPoint(-direction).getX())/500;
-                //yvel = (currentTrack.getPoint(direction).getY()- 
-                //currentTrack.getPoint(-direction).getY())/500;
                 System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
                 
                 for (int z = 0; z < people.size(); z++) 

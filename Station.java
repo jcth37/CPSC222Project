@@ -97,13 +97,34 @@ public class Station{
         trains[i] = 1;
         tk[i] = maxToken()+1;
         trains[i] = 0;
+        
+        boolean waitingCheck = false;
+        
         for (int j = 0; j < n; j++) {
             // Note: delays must added, or else massive performance drops occur.
-            while (trains[j] != 0) 
+            while (trains[j] != 0) {
                 Thread.currentThread().sleep(1);
-            while (tk[j] != 0 && (j < i || j == i && tk[j] < tk[i])) 
+                
+                if (!waitingCheck)
+                {
+                    waitingCheck = true;
+                    System.out.println ("Train #" + i + " is waiting at " + this);
+                }
+                
+            }
+                
+            while (tk[j] != 0 && (j < i || j == i && tk[j] < tk[i])) {
                 Thread.currentThread().sleep(1);
+            
+                if (!waitingCheck)
+                {
+                    waitingCheck = true;
+                    System.out.println ("Train #" + i + " is waiting at " + this);
+                }
+            }
         }
+        Thread.currentThread().sleep(1500);
+        waitingCheck = false;
     }
     
     /**
@@ -111,6 +132,7 @@ public class Station{
      * @param i     the current thread ID 
      */
     public void exit(int i) {
+        Thread.currentThread().sleep(1500);
         tk[i] = 0;
     }
     

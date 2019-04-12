@@ -5,37 +5,73 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Main {
-
+    
     public static void main(String[] args) {
-        Station a = new Station(10, 10);
-        Station b = new Station(400, 10);
-        Station c = new Station(790, 10);
-        Station d = new Station(450, 400);
-        Station[] allStations = new Station[]{a, b, c, d};
-
-        Route r = new Route(a, b, d);
-        Route r2 = new Route(c, d);
-        Route r3 = new Route(a, d);
-        Route[] allRoutes = new Route[]{r, r2, r3};
-
-        a.init(3);
-        b.init(3);
-        c.init(3);
-        d.init(3);
-
-        Train t1 = new Train(r);
-        Train t2 = new Train(r2);
-        Train t3 = new Train(r3);
-        Train[] allTrains = new Train[]{t1, t2, t3};
-
-        t1.start();
-        t2.start();
-        t3.start();
-
-        //graphics stuff
         
+        ArrayList<Station> stationList = new ArrayList();
+        ArrayList<Route> routeList = new ArrayList();
+        ArrayList<Train> trainList = new ArrayList();
+        
+        File file = new File("map.txt");
+        try (FileReader fileReader = new FileReader(file)) {
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String[] arguments;
+            String line;
+            ArrayList<String> names = new ArrayList();
+            while ((line = bufferedReader.readLine()) != null) {
+                arguments = line.split("\\s+");
+                // show errors for too little arguments, or incorrect types
+                if (arguments[0].equals(""))
+                    break;
+                names.add(arguments[0]);
+                int x = Integer.parseInt(arguments[1]);
+                int y = Integer.parseInt(arguments[2]);
+                Station s = new Station(x, y);
+                stationList.add(s);
+            }
+            
+            while ((line = bufferedReader.readLine()) != null) {
+                arguments = line.split("\\s+");
+                // show errors for too little arguments, or incorrect types
+                ArrayList<Station> routeStations = new ArrayList();
+                for (String a : arguments)
+                    routeStations.add(stationList.get(names.indexOf(a)));
+                routeList.add(new Route(routeStations.toArray(new Station[routeStations.size()])));
+            }
+            names = null;
+            
+            
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("Working Directory = " +
+              System.getProperty("user.dir"));
+        } 
+        
+        Station[] allStations = stationList.toArray(new Station[stationList.size()]);
+        Route[] allRoutes = routeList.toArray(new Route[routeList.size()]);
+                
+        stationList = null;
+        routeList = null; 
+
+        for (Station s : allStations)
+            s.init(3);
+        
+        for (Route r : allRoutes) {
+            Train t = new Train(r);
+            trainList.add(t);
+            t.start();
+        }
+        
+        Train[] allTrains = trainList.toArray(new Train[trainList.size()]);
+
+        trainList = null;
+        
+        
+        //graphics stuff
 
         JFrame frame = new JFrame();
 

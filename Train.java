@@ -78,7 +78,6 @@ public class Train extends Thread {
                     
                 station.enter(id);  // synchronization lock
                 
-                System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
                 for (int i = contains-1; i >= 0; i--) {
                     Passenger p = people.get(i);
                     // Drop passenger off at station
@@ -110,9 +109,11 @@ public class Train extends Thread {
                         break;
                     }
                 }
-                System.out.printf("%s has left %s\n", this.toString(), station.toString());
+                
                 
                 station.exit(id);   // synchronization unlock
+                
+                System.out.printf("%s has left %s\n", this.toString(), station.toString());
                 //long startTime = System.currentTimeMillis();
 
                 //} while (startTime-System.currentTimeMillis() >= currentTrack.getDistance()*16);

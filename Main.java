@@ -17,8 +17,8 @@ public class Main {
 
         Route r = new Route(a, b, d);
         Route r2 = new Route(c, d);
-        //Route r3 = new Route(a, d);
-        Route[] allRoutes = new Route[]{r, r2};
+        Route r3 = new Route(a, d);
+        Route[] allRoutes = new Route[]{r, r2, r3};
 
         a.init(3);
         b.init(3);
@@ -27,12 +27,12 @@ public class Main {
 
         Train t1 = new Train(r);
         Train t2 = new Train(r2);
-        //Train t3 = new Train(r3);
-        Train[] allTrains = new Train[]{t1, t2};
+        Train t3 = new Train(r3);
+        Train[] allTrains = new Train[]{t1, t2, t3};
 
         t1.start();
         t2.start();
-        //t3.start();
+        t3.start();
 
         //graphics stuff
         

@@ -18,13 +18,14 @@ public class Train extends Thread {
     private Route route;
     private int trackNum;  // current track number in route
     private int direction; // must be -1 or +1
+    private int xdiff, ydiff;
     
     private static int count = 0;
     public final int id;
     
     //graphics stuff below
-    private double xvel, yvel;
-    private Point2D point1, point2, point3, point4;
+    private double remainingTime;
+    private Point2D point1, point2, point3, point4, ipoint1, ipoint2, ipoint3, ipoint4;
     /*
      ________
      |        |
@@ -47,8 +48,10 @@ public class Train extends Thread {
         point2 = new Point2D.Double(0, 0);
         point3 = new Point2D.Double(0, 0);
         point4 = new Point2D.Double(0, 0);
-        xvel = 0;
-        yvel = 0;
+        ipoint1 = new Point2D.Double(0, 0);
+        ipoint2 = new Point2D.Double(0, 0);
+        ipoint3 = new Point2D.Double(0, 0);
+        ipoint4 = new Point2D.Double(0, 0);
     }
     
     @Override
@@ -57,14 +60,15 @@ public class Train extends Thread {
             while (!interrupted()) {
                 Station station = currentTrack.getStation(-direction);
                 
-                point1.setLocation(station.x, station.y);
-                point2.setLocation(station.x + STATIONSIZE, station.y);
-                point3.setLocation(station.x, station.y + STATIONSIZE);
-                point4.setLocation(station.x + STATIONSIZE, station.y + STATIONSIZE);
-                xvel = (currentTrack.getPoint(direction).getX()- 
-                currentTrack.getPoint(-direction).getX())/500;
-                yvel = (currentTrack.getPoint(direction).getY()- 
-                currentTrack.getPoint(-direction).getY())/500;
+                ipoint1.setLocation(station.x, station.y);
+                ipoint2.setLocation(station.x + STATIONSIZE, station.y);
+                ipoint3.setLocation(station.x, station.y + STATIONSIZE);
+                ipoint4.setLocation(station.x + STATIONSIZE, station.y + STATIONSIZE);
+                
+                //xvel = (currentTrack.getPoint(direction).getX()- 
+                //currentTrack.getPoint(-direction).getX())/500;
+                //yvel = (currentTrack.getPoint(direction).getY()- 
+                //currentTrack.getPoint(-direction).getY())/500;
                 System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
                 
                 for (int z = 0; z < people.size(); z++) 
@@ -107,15 +111,40 @@ public class Train extends Thread {
                 System.out.printf("%s has left %s\n", this.toString(), station.toString());
                 
                 station.exit(id);   // synchronization unlock
+                //long startTime = System.currentTimeMillis();
+
+                //} while (startTime-System.currentTimeMillis() >= currentTrack.getDistance()*16);
+                //sleep((long)(currentTrack.getDistance() / getVel()) * 16); //driving
                 
-                sleep((long)(currentTrack.getDistance() / getVel()) * 16); //driving
+                //remainingTime = currentTrack.getDistance()*16;
                 Track nextTrack = route.getTrack(trackNum+direction);
+                
+
+                
                 if (nextTrack == null) 
                     direction = -direction; //reverse direction
                 else {
                     trackNum += direction;  //go to next track
                     currentTrack = nextTrack;
                 }
+                
+                Station nextStation = currentTrack.getStation(-direction);
+                double endTime = currentTrack.getDistance()*16;
+                double currentTime = 0;
+                while (currentTime < endTime) {
+                    //calc xdiff ydiff
+                    xdiff = (int)(currentTime/endTime*(nextStation.x-station.x));
+                    ydiff = (int)(currentTime/endTime*(nextStation.y-station.y));
+                    point1.setLocation(ipoint1.getX()+xdiff, ipoint1.getY()+ydiff);
+                    point2.setLocation(ipoint2.getX()+xdiff, ipoint2.getY()+ydiff);
+                    point3.setLocation(ipoint3.getX()+xdiff, ipoint3.getY()+ydiff);
+                    point4.setLocation(ipoint4.getX()+xdiff, ipoint4.getY()+ydiff);                            
+                    move();
+                    sleep(1);
+                    currentTime += 1;
+                } 
+                
+                
             }
         } catch (InterruptedException e) { 
         }
@@ -124,10 +153,6 @@ public class Train extends Thread {
     @Override
     public String toString() { 
         return "Train #"+id;
-    }
-    
-    private double getVel(){
-         return Math.sqrt(Math.pow(xvel, 2)+Math.pow(yvel, 2));
     }
 
     public void draw(Graphics2D g2) {
@@ -138,10 +163,10 @@ public class Train extends Thread {
     }
 
     public void move() {
-        point1.setLocation(point1.getX()+xvel, point1.getY()+yvel);
-        point2.setLocation(point2.getX()+xvel, point2.getY()+yvel);
-        point3.setLocation(point3.getX()+xvel, point3.getY()+yvel);
-        point4.setLocation(point4.getX()+xvel, point4.getY()+yvel);
+        point1.setLocation(ipoint1.getX()+xdiff, ipoint1.getY()+ydiff);
+        point2.setLocation(ipoint2.getX()+xdiff, ipoint2.getY()+ydiff);
+        point3.setLocation(ipoint3.getX()+xdiff, ipoint3.getY()+ydiff);
+        point4.setLocation(ipoint4.getX()+xdiff, ipoint4.getY()+ydiff);
     }
     
 }

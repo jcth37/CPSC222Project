@@ -1,8 +1,6 @@
 package TrainSim;
 
-// Update: -Now constructs route of tracks from a specified order of stations.
-//         -Since distance was added to track constructor, added random distance
-//          between stations
+//changed station array from private to public final
 import java.util.Random;
 
 public class Route {
@@ -10,7 +8,7 @@ public class Route {
     private Track[] myTracks;  //should have different name?
     private static final Random r = new Random();
 
-    private Station[] s;
+    public final Station[] s;
 
     public Route(Station... stations) {
         // This constructs array of tracks from ordered set of stations
@@ -23,6 +21,7 @@ public class Route {
             stations[i].addRoute(this);
             myTracks[i] = new Track(stations[i], stations[i + 1], r.nextDouble() * 35);
         }
+        stations[stations.length - 1].addRoute(this);
     }
 
     public Track getTrack(int i) {
@@ -32,7 +31,7 @@ public class Route {
         return myTracks[i];
     }
 
-    public boolean contatins(Station aStation) {
+    public boolean contains(Station aStation) {
         boolean ans = false;
         for (int i = 0; i < s.length; i++) {
             if (s[i].equals(aStation)) {

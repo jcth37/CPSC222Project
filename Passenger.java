@@ -1,28 +1,32 @@
 package TrainSim;
 
-/* Update:  -Generates an efficient, non-infinite stack of routes.
-            -destStack was changed to routeStack, because the amount of work overall seems smaller in this case to me.
-*/
-
 public class Passenger {
     private Station dest; //destination
     private MyStack<Route> routeStack;
+    private static int count = 0;
+    public final int id;
     
     public Passenger(){
+        id = ++count;
         reset();
+    }
+    
+    public Passenger(Station s){
+        id = ++count;
+        reset(s);
     }
     
     private void generateRouteStack(Station s) {     // Using Breadth First Search
         MyQueue<Route> search = new MyQueue();
         MyQueue<Node<Route>> traceBack = new MyQueue();  //traceBack keeps track of the "route of routes"
         
-        Route r
-        Node<Route> n
+        Route r;
+        Node<Route> n = null;
         
         // Search for efficient queue of routes and recording a traceBack
-        for (Route r : s.getRoutes()) {
-            search.enqueue(r);
-            traceBack.enqueue(new Node(r));
+        for (Route r2 : s.myRoutes) {
+            search.enqueue(r2);
+            traceBack.enqueue(new Node(r2));
         }
         while (s != dest) {         //Problem: will infinite loop if station is on a disconnected set of routes
             r = search.dequeue();
@@ -31,7 +35,7 @@ public class Passenger {
             Track t = r.getTrack(0);
             s = t.getStation(-1);
             while (s != dest) {
-                for (Route r2 : s.getRoutes()) {
+                for (Route r2 : s.myRoutes) {
                     search.enqueue(r2);
                     traceBack.enqueue(new Node(r2, n));
                 }
@@ -53,6 +57,17 @@ public class Passenger {
         }
     }
     
+    public final void reset(Station s){
+        Station start = s;
+        dest = Station.getRandomStation();
+        while(start == dest){
+            dest = Station.getRandomStation();
+        }
+        generateRouteStack(start);
+        start.newPassenger(this);
+        System.out.printf("%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
+    }
+    
     public final void reset(){
         dest = Station.getRandomStation();
         Station start = Station.getRandomStation();
@@ -61,13 +76,14 @@ public class Passenger {
         }
         generateRouteStack(start);
         start.newPassenger(this);
+        System.out.printf("%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
     }
     
     public Station getDest(){
         return dest;
     }
     
-    public Route getNextRoute(Route route) {
+    public Route getNextRoute() {
         return routeStack.top();
     }
     
@@ -75,13 +91,8 @@ public class Passenger {
         routeStack.pop();
     }
     
-    //public void setDest(Station s){
-    //    destStack.push(dest);
-    //    dest = s;
-    //}
-    
-    //public boolean hasArrived() {
-    //    return destStack.size() == 0;
-    //}
+    public String toString() { 
+        return "Passenger #"+id;
+    }
     
 }

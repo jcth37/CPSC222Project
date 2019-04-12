@@ -10,7 +10,6 @@ import java.awt.geom.Line2D;
 public class Train extends Thread {
     
     public static final int CAP = 6;//max capacity
-    private static int collisions = 0;
     
     private int contains;
     private Track currentTrack;
@@ -24,7 +23,6 @@ public class Train extends Thread {
     public final int id;
     
     //graphics stuff below
-    private double remainingTime;
     private Point2D point1, point2, point3, point4, point5, ipoint1, ipoint2, ipoint3, ipoint4, ipoint5;
     /*
      ________

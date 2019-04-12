@@ -12,7 +12,7 @@ public class Main {
         Station a = new Station(10, 10);
         Station b = new Station(400, 10);
         Station c = new Station(790, 10);
-        Station d = new Station(400, 400);
+        Station d = new Station(450, 400);
         Station[] allStations = new Station[]{a, b, c, d};
 
         Route r = new Route(a, b, d);

@@ -1,7 +1,6 @@
 package TrainSim;
 //added graphics stuff
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -18,22 +17,22 @@ public class Main {
 
         Route r = new Route(a, b, d);
         Route r2 = new Route(c, d);
-        Route r3 = new Route(a, d);
-        Route[] allRoutes = new Route[]{r, r2, r3};
+        //Route r3 = new Route(a, d);
+        Route[] allRoutes = new Route[]{r, r2};
 
-        a.init();
-        b.init();
-        c.init();
-        d.init();
+        a.init(3);
+        b.init(3);
+        c.init(3);
+        d.init(3);
 
         Train t1 = new Train(r);
         Train t2 = new Train(r2);
-        Train t3 = new Train(r3);
-        Train[] allTrains = new Train[]{t1, t2, t3};
+        //Train t3 = new Train(r3);
+        Train[] allTrains = new Train[]{t1, t2};
 
         t1.start();
         t2.start();
-        t3.start();
+        //t3.start();
 
         //graphics stuff
         

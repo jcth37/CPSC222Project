@@ -2,18 +2,19 @@ package TrainSim;
 
 public class Passenger {
     private Station dest; //destination
+    
     private MyStack<Route> routeStack;
     private static int count = 0;
     public final int id;
     
-    public Passenger(){
-        id = ++count;
-        reset();
-    }
+    private Route myRoute;
+    private Station currStat;
     
-    public Passenger(Station s){
-        id = ++count;
-        reset(s);
+    public int failsafe = 0;
+    
+    public Passenger(){
+        id = count++;
+        reset();
     }
     
     private void generateRouteStack(Station s) {     // Using Breadth First Search
@@ -23,7 +24,7 @@ public class Passenger {
         Route r;
         Node<Route> n = null;
         
-        // Search for efficient queue of routes and recording a traceBack
+        // Search for efficient queue of routes while recording a traceBack
         for (Route r2 : s.myRoutes) {
             search.enqueue(r2);
             traceBack.enqueue(new Node(r2));
@@ -55,17 +56,7 @@ public class Passenger {
             routeStack.push(n.element);
             n = n.link;
         }
-    }
-    
-    public final void reset(Station s){
-        Station start = s;
-        dest = Station.getRandomStation();
-        while(start == dest){
-            dest = Station.getRandomStation();
-        }
-        generateRouteStack(start);
-        start.newPassenger(this);
-        System.out.printf("%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
+        myRoute = routeStack.pop();
     }
     
     public final void reset(){
@@ -76,11 +67,24 @@ public class Passenger {
         }
         generateRouteStack(start);
         start.newPassenger(this);
-        System.out.printf("%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
+        currStat = start;
+        System.out.printf("\t%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
     }
     
     public Station getDest(){
         return dest;
+    }
+    
+    public Station getCurrentStation(){
+        return currStat;
+    }
+    
+    public void setCurrentStation(Station a){
+        currStat = a;
+    }
+    
+    public Route getCurrentRoute() {
+        return myRoute;
     }
     
     public Route getNextRoute() {
@@ -88,7 +92,7 @@ public class Passenger {
     }
     
     public void goNextRoute() {
-        routeStack.pop();
+        myRoute = routeStack.pop();
     }
     
     public String toString() { 

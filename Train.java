@@ -55,16 +55,16 @@ public class Train extends Thread {
     public void run(){
         try {
             while (!interrupted()) {
-                Station station = currentTrack.getStation(direction);
+                Station station = currentTrack.getStation(-direction);
                 
                 point1.setLocation(station.x, station.y);
                 point2.setLocation(station.x + STATIONSIZE, station.y);
                 point3.setLocation(station.x, station.y + STATIONSIZE);
                 point4.setLocation(station.x + STATIONSIZE, station.y + STATIONSIZE);
-                xvel = (currentTrack.getPoint(direction * -1).getX()- 
-                currentTrack.getPoint(direction).getX())/500;
-                yvel = (currentTrack.getPoint(direction * -1).getY()- 
-                currentTrack.getPoint(direction).getY())/500;
+                xvel = (currentTrack.getPoint(direction).getX()- 
+                currentTrack.getPoint(-direction).getX())/500;
+                yvel = (currentTrack.getPoint(direction).getY()- 
+                currentTrack.getPoint(-direction).getY())/500;
                 System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
                 
                 for (int z = 0; z < people.size(); z++) 

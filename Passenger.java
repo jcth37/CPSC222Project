@@ -10,8 +10,6 @@ public class Passenger {
     private Route myRoute;
     private Station currStat;
     
-    public int failsafe = 0;
-    
     public Passenger(){
         id = count++;
         reset();

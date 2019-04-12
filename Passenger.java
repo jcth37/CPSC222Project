@@ -6,6 +6,7 @@ public class Passenger {
     private MyStack<Route> routeStack;
     private static int count = 0;
     public final int id;
+    private Route myRoute;
     
     public int failsafe = 0;
     
@@ -21,7 +22,7 @@ public class Passenger {
         Route r;
         Node<Route> n = null;
         
-        // Search for efficient queue of routes and recording a traceBack
+        // Search for efficient queue of routes while recording a traceBack
         for (Route r2 : s.myRoutes) {
             search.enqueue(r2);
             traceBack.enqueue(new Node(r2));
@@ -53,6 +54,7 @@ public class Passenger {
             routeStack.push(n.element);
             n = n.link;
         }
+        myRoute = routeStack.pop();
     }
     
     public final void reset(){
@@ -64,7 +66,7 @@ public class Passenger {
         generateRouteStack(start);
         start.newPassenger(this);
         currStat = start;
-        System.out.printf("%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
+        System.out.printf("\t%s starts at %s, to get to %s\n", toString(), start.toString(), getDest().toString());
     }
     
     public Station getDest(){
@@ -79,12 +81,16 @@ public class Passenger {
         currStat = a;
     }
     
+    public Route getCurrentRoute() {
+        return myRoute;
+    }
+    
     public Route getNextRoute() {
         return routeStack.top();
     }
     
     public void goNextRoute() {
-        routeStack.pop();
+        myRoute = routeStack.pop();
     }
     
     public String toString() { 

@@ -41,39 +41,27 @@ public class Train extends Thread {
             while (!interrupted()) {
                 Station station = currentTrack.getStation(direction);
                 
-                
-                
-                synchronized(station) {
-                    
-                for (int z = 0; z < people.size(); z++) ///////////////////// moved into syncronization loop due to editing people even though they're on train
-                {
+                for (int z = 0; z < people.size(); z++) 
                     people.get(z).setCurrentStation(station);
-                }
-                         
                     
-                //station.enter(id);
+                station.enter(id);  // synchronization lock
                 
                 System.out.printf("%s arrived at %s\n", this.toString(), station.toString());
-                // <- Do synchronization stuff here perhaps
                 for (int i = contains-1; i >= 0; i--) {
                     Passenger p = people.get(i);
                     // Drop passenger off at station
                     if (p.getDest() == station) {
                         people.remove(i);
-                        System.out.printf("%s from %s, has arrived at destination %s\n", p.toString(), this.toString(), station.toString());
+                        System.out.printf("\t%s from %s, has arrived at destination %s\n", p.toString(), this.toString(), station.toString());
                         p.reset();
                         contains--;
                     } 
                     else if (route.contains(p.getDest())){
-                        System.out.printf("%s stays on %s\n", p.toString(), this.toString()); /////////////////added to keep tabs on passengers
+                        System.out.printf("\t%s stays on %s\n", p.toString(), this.toString()); /////////////////added to keep tabs on passengers
                     }
-                    else if (station.myRoutes.contains(p.getNextRoute())) {
-                        
-                        if (p.id == 1 && station.id == 2)////////////////////////////////////////test
-                            System.out.print("");
-                        
+                    else if (station.myRoutes.contains(p.getNextRoute())) {                        
                         people.remove(i);
-                        System.out.printf("%s from %s, has transfered to %s\n", p.toString(), this.toString(), station.toString());
+                        System.out.printf("\t%s from %s, has transferred to %s\n", p.toString(), this.toString(), station.toString());
                         p.goNextRoute();
                         station.newPassenger(p);
                         contains--;
@@ -81,24 +69,19 @@ public class Train extends Thread {
                 }
                 while (contains < CAP) {
                     // Load only valid passengers from station
-                    if (station.id == 2)///////////////////////////////////////////////test
-                        System.out.print("");
-                    
                     Passenger p = station.loadPassenger(route);
-                    if (p != null && p.getCurrentStation() == station ) {
+                    if (p != null && p.getCurrentStation() == station) {
                         people.add(p);
-                        System.out.printf("%s was added to %s\n", p.toString(), this.toString());
+                        System.out.printf("\t%s was added to %s\n", p.toString(), this.toString());
                         contains++;
-                        
-                        
                     } else { 
-                        
                         break;
                     }
                 }
                 System.out.printf("%s has left %s\n", this.toString(), station.toString());
-                //station.exit(id);
-                }
+                
+                station.exit(id);   // synchronization unlock
+                
                 sleep(calcDelayTime(currentTrack.getDistance())); //driving
                 Track nextTrack = route.getTrack(trackNum+direction);
                 if (nextTrack == null) 

@@ -5,7 +5,7 @@ import java.util.Random;
 public class Station{
     //station is the shared resource; two trains cannot access the same station
     //at the same time
-    private static final Random r = new Random(42);
+    private static final Random r = new Random();
     private static final ArrayList<Station> allStations = new ArrayList();
     public final ArrayList<Route> myRoutes = new ArrayList();
     private ArrayList<Passenger> p = new ArrayList();
@@ -13,6 +13,7 @@ public class Station{
     public final int id;
     public final double x, y;
     
+    // Synchronization stuff
     private byte[] trains;   // Trains entering
     private int[] tk;       // Tokens
     private int n;          // Number of threads 
@@ -43,9 +44,8 @@ public class Station{
     
     public void init(int n){
         //intended only to be called when initializing station.
-        for(int i = 0 ; i < 1 ; i++){
+        for(int i = 0 ; i < 1 ; i++)
             new Passenger();
-        }
         //bakery stuff
         this.n = n;
         trains = new byte[n];
@@ -55,9 +55,7 @@ public class Station{
     public Passenger loadPassenger(Route route){//put the passenger on the train
         // only put on if person's route is the same as the train's
         for (int i = 0; i < p.size(); i++) {
-            if (p.get(i).id == 1 && p.get(i).getCurrentStation().id == 2)
-                System.out.print("");
-            Route pRoute = p.get(i).getNextRoute();
+            Route pRoute = p.get(i).getCurrentRoute();
             if (pRoute == route || pRoute == null)  //null => station on current track
                 return p.remove(i);
         }

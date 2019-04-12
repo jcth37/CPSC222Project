@@ -18,7 +18,7 @@ public class Route {
         myTracks = new Track[stations.length - 1];
         for (int i = 0; i < stations.length - 1; i++) {
             stations[i].addRoute(this);
-            myTracks[i] = new Track(stations[i], stations[i + 1], r.nextDouble() * 35);
+            myTracks[i] = new Track(stations[i], stations[i + 1]);
         }
         stations[stations.length - 1].addRoute(this);
     }
@@ -39,4 +39,5 @@ public class Route {
         }
         return ans;
     }
+    
 }

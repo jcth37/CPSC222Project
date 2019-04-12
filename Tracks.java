@@ -9,7 +9,7 @@ public class Tracks {
             throw new RuntimeException("Need at least two stations!");
         route = new Track[stations.length-1];
         for (int i = 0; i < stations.length-1; i++)
-            route[i] = new Track(stations[i], stations[i+1], 1000);
+            route[i] = new Track(stations[i], stations[i+1]);
     }
     
     public Track getTrack(int i) {

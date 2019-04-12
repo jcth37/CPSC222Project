@@ -6,9 +6,6 @@ import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TrainComponent extends JComponent {
     //this will create the tracks and stations in the graphics
@@ -33,6 +30,7 @@ public class TrainComponent extends JComponent {
         Graphics2D g2 = (Graphics2D) g;
         for (Station s : stations) {
             g2.draw(new Ellipse2D.Double(s.x, s.y, STATIONSIZE, STATIONSIZE));
+            g2.drawString(s.getNumPassengers().toString(), (float)s.x, (float)s.y);
         }
         for (int i = 0; i < routes.length; i++){
             g2.setColor(COLORS[i]);
@@ -50,12 +48,5 @@ public class TrainComponent extends JComponent {
             t.draw(g2);
         }
         
-    }
-    
-    public void move(){
-        for (Train t : trains) {
-            t.move();
-        }
-        repaint();
     }
 }

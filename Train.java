@@ -25,7 +25,7 @@ public class Train extends Thread {
     
     //graphics stuff below
     private double remainingTime;
-    private Point2D point1, point2, point3, point4, ipoint1, ipoint2, ipoint3, ipoint4;
+    private Point2D point1, point2, point3, point4, point5, ipoint1, ipoint2, ipoint3, ipoint4, ipoint5;
     /*
      ________
      |        |
@@ -48,10 +48,12 @@ public class Train extends Thread {
         point2 = new Point2D.Double(0, 0);
         point3 = new Point2D.Double(0, 0);
         point4 = new Point2D.Double(0, 0);
+        point5 = new Point2D.Double(0, 0);
         ipoint1 = new Point2D.Double(0, 0);
         ipoint2 = new Point2D.Double(0, 0);
         ipoint3 = new Point2D.Double(0, 0);
         ipoint4 = new Point2D.Double(0, 0);
+        ipoint5 = new Point2D.Double(0, 0);
     }
     
     @Override
@@ -64,6 +66,7 @@ public class Train extends Thread {
                 ipoint2.setLocation(station.x + STATIONSIZE, station.y);
                 ipoint3.setLocation(station.x, station.y + STATIONSIZE);
                 ipoint4.setLocation(station.x + STATIONSIZE, station.y + STATIONSIZE);
+                ipoint5.setLocation(currentTrack.getPoint(-direction));
                 
                 //xvel = (currentTrack.getPoint(direction).getX()- 
                 //currentTrack.getPoint(-direction).getX())/500;
@@ -138,8 +141,8 @@ public class Train extends Thread {
                     point1.setLocation(ipoint1.getX()+xdiff, ipoint1.getY()+ydiff);
                     point2.setLocation(ipoint2.getX()+xdiff, ipoint2.getY()+ydiff);
                     point3.setLocation(ipoint3.getX()+xdiff, ipoint3.getY()+ydiff);
-                    point4.setLocation(ipoint4.getX()+xdiff, ipoint4.getY()+ydiff);                            
-                    move();
+                    point4.setLocation(ipoint4.getX()+xdiff, ipoint4.getY()+ydiff);
+                    point5.setLocation(ipoint5.getX()+xdiff, ipoint5.getY()+ydiff);
                     sleep(1);
                     currentTime += 1;
                 } 
@@ -160,13 +163,7 @@ public class Train extends Thread {
         g2.draw(new Line2D.Double(point1, point3));
         g2.draw(new Line2D.Double(point2, point4));
         g2.draw(new Line2D.Double(point3, point4));
+        Integer i = people.size();
+        g2.drawString(i.toString(), (int)point5.getX(), (int)point5.getY());
     }
-
-    public void move() {
-        point1.setLocation(ipoint1.getX()+xdiff, ipoint1.getY()+ydiff);
-        point2.setLocation(ipoint2.getX()+xdiff, ipoint2.getY()+ydiff);
-        point3.setLocation(ipoint3.getX()+xdiff, ipoint3.getY()+ydiff);
-        point4.setLocation(ipoint4.getX()+xdiff, ipoint4.getY()+ydiff);
-    }
-    
 }

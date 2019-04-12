@@ -18,6 +18,10 @@ public class Station{
     private int[] tk;       // Tokens
     private int n;          // Number of threads 
     
+    public Integer getNumPassengers(){
+        return p.size();
+    }
+    
     public Station(double x, double y){
         allStations.add(this);
         id = count++;

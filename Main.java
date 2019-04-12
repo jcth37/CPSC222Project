@@ -49,7 +49,7 @@ public class Main {
         class TimerListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent event) {
-                tc.move();
+                tc.repaint();
             }
         }
         

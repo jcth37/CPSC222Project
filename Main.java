@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         // Get the map file
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Open a map file");
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); // < working directory
         int result = fileChooser.showOpenDialog(null);
         // If file not selected exit program

@@ -15,6 +15,11 @@ public class Passenger {
         reset();
     }
     
+    public static void generate(int n) {
+        for (int i = 0; i < n; i++)
+            new Passenger();
+    }
+    
     private void generateRouteStack(Station s) {     // Using Breadth First Search
         MyQueue<Route> search = new MyQueue();
         MyQueue<Node<Route>> traceBack = new MyQueue();  //traceBack keeps track of the "route of routes"

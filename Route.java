@@ -1,11 +1,8 @@
 package TrainSim;
 
-import java.util.Random;
-
 public class Route {
 
     private Track[] myTracks;  //should have different name?
-    private static final Random r = new Random();
 
     public final Station[] s;
 

@@ -36,24 +36,13 @@ public class Station{
     public boolean hasPassengers(){
         return !people.isEmpty();
     }
-    
-    public boolean hasPassengers(Route route) {
-        for (Passenger person : people) {
-            Route pRoute = person.getNextRoute();
-            if (pRoute == route || pRoute == null)  //null => station on current track
-                return true;
-        }
-        return false;
-    }
-    
+
     public void addRoute(Route r){
         myRoutes.add(r);
     }
     
     public void init(int n){
         //intended only to be called when initializing station.
-        //for(int i = 0 ; i < 1 ; i++)     < doing this outside station now
-        //    new Passenger();
         //bakery stuff
         this.n = n;
         trains = new boolean[n];
@@ -164,6 +153,7 @@ public class Station{
         }
     }
     
+    @Override
     public String toString() { 
         return "Station #"+id;
     }

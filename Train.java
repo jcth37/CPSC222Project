@@ -24,12 +24,6 @@ public class Train extends Thread {
     //graphics stuff below
     private Point2D[] points;
     private Point2D[] ipoints;
-    /*
-     ________
-     |        |
-     |        | <- this point is where sideX, sideY coordinate points to
-     |________|     if the train is going to the left of the screen
-     */
     
     public Train(Route route){
         if (route == null)
@@ -149,7 +143,7 @@ public class Train extends Thread {
         g2.draw(new Line2D.Double(points[0], points[2]));
         g2.draw(new Line2D.Double(points[1], points[3]));
         g2.draw(new Line2D.Double(points[2], points[3]));
-        Integer i = people.size();
+        Integer i = people.size();//this is done to it can be converted to string
         g2.drawString(i.toString(), (int)points[4].getX(), (int)points[4].getY());
     }
 }

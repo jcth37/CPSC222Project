@@ -2,7 +2,7 @@ package TrainSim;
 
 public class Route {
 
-    private Track[] myTracks;  //should have different name?
+    private Track[] myTracks;
     private double length;
 
     public final Station[] s;

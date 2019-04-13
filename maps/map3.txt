@@ -1,0 +1,17 @@
+365		<- frame width
+385		<- frame height
+4		<- # of passengers
+4		<- maximum train capacity
+15		<- train speed (higher => slower)
+3000		<- how long a train must wait at station
+
+A 75 75
+B 150 150
+C 225 225
+D 225 75
+E 75 225
+
+A B
+C B
+D B
+E B

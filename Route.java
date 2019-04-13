@@ -3,6 +3,7 @@ package TrainSim;
 public class Route {
 
     private Track[] myTracks;  //should have different name?
+    private double length;
 
     public final Station[] s;
 
@@ -13,9 +14,11 @@ public class Route {
             throw new RuntimeException("Need at least two stations!");
         }
         myTracks = new Track[stations.length - 1];
+        length = 0;
         for (int i = 0; i < stations.length - 1; i++) {
             stations[i].addRoute(this);
             myTracks[i] = new Track(stations[i], stations[i + 1]);
+            length += myTracks[i].getDistance();
         }
         stations[stations.length - 1].addRoute(this);
     }
@@ -35,6 +38,10 @@ public class Route {
             }
         }
         return ans;
+    }
+    
+    public double getLength() {
+        return length;
     }
     
 }

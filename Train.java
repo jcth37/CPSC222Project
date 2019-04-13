@@ -78,6 +78,7 @@ public class Train extends Thread {
                         System.out.printf("\t%s from %s, has arrived at destination %s\n", p.toString(), this.toString(), station.toString());
                         p.reset();
                         contains--;
+                        this.sleep(250); // have a delay between dropping off and picking up, for clearer visualization
                     } 
                     else if (route.contains(p.getDest())){
                         System.out.printf("\t%s stays on %s\n", p.toString(), this.toString()); /////////////////added to keep tabs on passengers
@@ -88,6 +89,7 @@ public class Train extends Thread {
                         p.goNextRoute();
                         station.newPassenger(p);
                         contains--;
+                        this.sleep(250);
                     }
                 }
                 while (contains < CAP) {
@@ -97,6 +99,7 @@ public class Train extends Thread {
                         people.add(p);
                         System.out.printf("\t%s was added to %s\n", p.toString(), this.toString());
                         contains++;
+                        this.sleep(250);
                     } else { 
                         break;
                     }

@@ -40,6 +40,8 @@ public class Passenger {
             s = t.getStation(-1);
             while (s != dest) {
                 for (Route r2 : s.myRoutes) {
+                    if (search.look() == r2)
+                        continue;
                     search.enqueue(r2);
                     traceBack.enqueue(new Node(r2, n));
                 }
@@ -50,6 +52,29 @@ public class Passenger {
                     break;
                 }      
             } 
+        }
+        
+        MyStack<Node<Route>> finalNodes = new MyStack();
+        finalNodes.push(n);
+        while (search.size() > 0) {         
+            r = search.dequeue();
+            n = traceBack.dequeue();
+            int i = 0;
+            Track t = r.getTrack(0);
+            s = t.getStation(-1);
+            while (s != dest && t != null) {
+                s = t.getStation(+1);
+                t = r.getTrack(++i);
+            } 
+            if (s == dest)
+                finalNodes.push(n);
+        }      
+        
+        n = finalNodes.pop();
+        while (finalNodes.size() > 0) {
+            Node<Route> n2 = finalNodes.pop();
+            if (n2.element.getLength() < n.element.getLength())
+                n = n2;
         }
         
         // Finally use traceBack nodes to generate destStack
